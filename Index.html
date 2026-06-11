@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matemática 2° Año — Guía Completa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf7f0;--card:rgba(255,255,255,.95);--blue:#4a7fd4;--blue-lt:#e8f0fb;
+--red:#d94f4f;--red-lt:#fce8e8;--green:#3a9e4a;--green-lt:#e4f5e6;
+--gold:#d4952a;--gold-lt:#fef6e6;--purple:#7e57c2;--purple-lt:#f0ebf8;
+--text:#2c3e50;--text-lt:#7f8c8d;--line:#d4e3f5;
+--shadow:0 2px 14px rgba(0,0,0,.06);--shadow-lg:0 8px 30px rgba(0,0,0,.09);
+--radius:14px;--radius-sm:10px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:16px;min-height:100vh;background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,var(--line) 31px,var(--line) 32px)}
+h1,h2,h3,.hand{font-family:'Caveat',cursive}
+button{font-family:'Nunito',sans-serif;cursor:pointer}
+#app{position:relative;min-height:100vh}
+.view{display:none;animation:fadeUp .35s ease both}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+/* HERO */
+.home-hero{background:linear-gradient(135deg,#1b4332 0%,#2d6a4f 50%,#40916c 100%);color:#fff;padding:44px 24px 32px;text-align:center;position:relative;overflow:hidden}
+.home-hero::before{content:'';position:absolute;inset:0;opacity:.04;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0L40 20L20 40L0 20z' fill='%23fff' fill-opacity='.06'/%3E%3C/svg%3E")}
+.home-hero h1{font-size:clamp(1.8rem,5vw,2.8rem);position:relative;margin-bottom:4px}
+.home-hero p{font-size:1rem;opacity:.88;position:relative;max-width:540px;margin:0 auto}
+
+/* NAV TABS */
+.main-nav{background:var(--card);border-bottom:1px solid #e6ddd0;display:flex;position:sticky;top:0;z-index:90;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.main-nav button{flex:1;padding:13px 6px;border:none;background:transparent;font-weight:700;font-size:.85rem;color:var(--text-lt);border-bottom:3px solid transparent;transition:all .2s}
+.main-nav button:hover{color:var(--blue);background:var(--blue-lt)}
+.main-nav button.act{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue-lt)}
+
+/* PROGRESS */
+.progress-wrap{background:var(--card);border-bottom:1px solid #e6ddd0;padding:10px 20px;display:flex;align-items:center;gap:12px}
+.progress-wrap .lbl{font-size:.78rem;font-weight:700;color:var(--green);white-space:nowrap}
+.progress-track{flex:1;height:7px;background:#e8e2da;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),#66bb6a);border-radius:99px;transition:width .5s ease}
+.progress-wrap .cnt{font-size:.78rem;font-weight:700;color:var(--text-lt);white-space:nowrap}
+
+/* GRID */
+.topics-grid,.practice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;max-width:1100px;margin:28px auto;padding:0 20px 50px}
+.topic-card,.practice-card{background:var(--card);border:1px solid #e6ddd0;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.topic-card:hover,.practice-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.tc-icon{font-size:1.8rem;margin-bottom:6px}
+.topic-card h3,.practice-card h3{font-size:1.4rem;color:var(--blue);margin-bottom:5px}
+.topic-card p,.practice-card p{font-size:.87rem;color:var(--text-lt);margin-bottom:12px}
+.tc-tags{display:flex;gap:7px;flex-wrap:wrap}
+.tc-tag{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--blue-lt);color:var(--blue)}
+.tc-tag.ready{background:var(--green-lt);color:var(--green)}
+.pc-cat{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:99px;display:inline-block;margin-bottom:6px}
+.cat-mod{background:var(--blue-lt);color:var(--blue)}.cat-comp{background:var(--gold-lt);color:var(--gold)}.cat-sign{background:var(--red-lt);color:var(--red)}.cat-jer{background:var(--green-lt);color:var(--green)}.cat-pot{background:var(--purple-lt);color:var(--purple)}.cat-rad{background:var(--red-lt);color:var(--red)}
+.pc-footer{padding:10px 22px;background:#f9f6f1;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;margin:0 -24px -22px;border-radius:0 0 var(--radius) var(--radius)}
+.pc-diff{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:99px}
+.diff-easy{background:var(--green-lt);color:var(--green)}.diff-med{background:var(--gold-lt);color:var(--gold)}.diff-hard{background:var(--red-lt);color:var(--red)}
+.pc-go{font-size:.82rem;font-weight:700;color:var(--blue)}
+
+/* BACK BUTTON */
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:#fff;font-weight:700;font-size:.82rem;padding:6px 16px;border-radius:99px;margin-bottom:14px;transition:background .2s}
+.back-btn:hover{background:rgba(255,255,255,.3)}
+
+/* TOPIC HERO */
+.topic-hero{padding:36px 24px 24px;text-align:center;background:linear-gradient(135deg,var(--blue) 0%,#6a9be8 100%);color:#fff}
+.topic-hero h1{font-size:clamp(1.5rem,4vw,2.2rem);margin-bottom:4px}
+.topic-hero p{opacity:.88;max-width:500px;margin:0 auto;font-size:.92rem}
+
+/* EX LIST */
+.ex-list{max-width:800px;margin:24px auto;padding:0 18px 50px;display:flex;flex-direction:column;gap:14px}
+.ex-card{background:var(--card);border:1px solid #e6ddd0;border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;gap:16px}
+.ex-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.ex-num{width:40px;height:40px;background:var(--blue);color:#fff;border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;flex-shrink:0}
+.ex-card .ex-info h3{font-size:1.08rem;margin-bottom:2px}
+.ex-card .ex-info p{font-size:.85rem;color:var(--text-lt)}
+.ex-card .ex-arrow{margin-left:auto;font-size:1.2rem;color:var(--text-lt)}
+.ex-card.done{border-left:4px solid var(--green)}.ex-card.done .ex-num{background:var(--green)}
+
+/* EXERCISE VIEW */
+.ex-view-hero{padding:30px 24px 18px;background:linear-gradient(135deg,#5b3a8e 0%,#7e57c2 100%);color:#fff;text-align:center}
+.ex-view-hero h1{font-size:clamp(1.3rem,3.5vw,1.8rem)}
+.exam-sheet{max-width:760px;margin:-14px auto 50px;padding:0 14px;position:relative;z-index:2}
+.enunciado-box{background:var(--card);border:1px solid #e6ddd0;border-radius:var(--radius);padding:24px 26px;margin:22px 0 24px;box-shadow:var(--shadow);border-left:5px solid var(--blue)}
+.enunciado-box h2{font-size:1.45rem;color:var(--blue);margin-bottom:8px}
+.en-texto blockquote{background:var(--blue-lt);border-radius:var(--radius-sm);padding:10px 16px;margin:8px 0;font-style:italic;font-weight:600}
+
+/* STEPS */
+.steps-container{display:flex;flex-direction:column;gap:12px;margin:18px 0 26px}
+.step-card{background:var(--card);border:1px solid #e6ddd0;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:border-color .3s}
+.step-card.open{border-color:var(--blue)}
+.step-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;transition:background .2s;user-select:none}
+.step-header:hover{background:var(--blue-lt)}
+.step-num{width:34px;height:34px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.84rem;flex-shrink:0}
+.step-info{flex:1}.step-info .step-title{font-weight:800;font-size:.95rem;color:var(--text)}.step-info .step-preview{font-size:.85rem;color:var(--text-lt);margin-top:2px}
+.step-arrow{font-size:.9rem;color:var(--text-lt);transition:transform .3s;flex-shrink:0}
+.step-card.open .step-arrow{transform:rotate(180deg)}
+.step-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s}
+.step-card.open .step-body{grid-template-rows:1fr}
+.step-body-inner{overflow:hidden}
+.step-body-pad{padding:0 20px 18px}
+.step-tabs{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.tab-btn{padding:5px 14px;border-radius:99px;border:2px solid #e6ddd0;background:transparent;font-weight:700;font-size:.78rem;color:var(--text-lt);transition:all .2s}
+.tab-btn:hover{border-color:var(--blue);color:var(--blue)}
+.tab-btn.active-t{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tab-content{display:none;line-height:1.8;font-size:.92rem}.tab-content.visible{display:block}
+.tab-content .tc-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;display:block}
+.tab-coloquial .tc-label{color:var(--green)}.tab-formal .tc-label{color:var(--blue)}.tab-clave .tc-label{color:var(--red)}
+.tab-clave .tc-inner{background:var(--red-lt);border-left:4px solid var(--red);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px}
+.tab-coloquial .tc-inner{background:var(--green-lt);border-left:4px solid var(--green);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px}
+.tab-formal .tc-inner{background:var(--blue-lt);border-left:4px solid var(--blue);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px}
+
+/* ANSWER */
+.answer-section{background:var(--card);border:1px solid #e6ddd0;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow);margin-top:8px}
+.answer-section h2{font-size:1.35rem;color:var(--text);margin-bottom:5px}
+.answer-section p.sub{font-size:.88rem;color:var(--text-lt);margin-bottom:16px}
+.options-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.opt-btn{padding:11px 22px;border-radius:var(--radius-sm);border:2.5px solid #ddd;background:#fff;font-weight:700;font-size:.92rem;color:var(--text);transition:all .2s;min-width:80px;text-align:center}
+.opt-btn:hover{border-color:var(--blue);background:var(--blue-lt)}
+.opt-btn.correct-opt{border-color:var(--green);background:var(--green-lt);color:var(--green)}
+.opt-btn.wrong-opt{border-color:var(--red);background:var(--red-lt);color:var(--red)}
+.num-input-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.num-input{flex:1;min-width:110px;padding:11px 14px;border:2.5px solid #ddd;border-radius:var(--radius-sm);font-size:1rem;font-weight:600;font-family:'Nunito',sans-serif;outline:none;background:#fff;transition:border-color .2s}
+.num-input:focus{border-color:var(--blue)}
+.btn-check{background:var(--blue);color:#fff;border:none;font-weight:700;font-size:.88rem;padding:11px 22px;border-radius:var(--radius-sm);transition:background .2s}
+.btn-check:hover{background:#3a6fc4}.btn-check:disabled{opacity:.45;cursor:default}
+.fb{display:none;padding:12px 16px;border-radius:var(--radius-sm);font-weight:600;font-size:.9rem;margin-top:4px}
+.fb.show{display:block;animation:popIn .3s ease both}
+.fb.fb-ok{background:var(--green-lt);color:var(--green);border:1.5px solid var(--green)}
+.fb.fb-fail{background:var(--red-lt);color:var(--red);border:1.5px solid var(--red)}
+.summary-box{background:linear-gradient(135deg,#e8f0fb,#f0f7f0);border:1px solid #d4e3f5;border-radius:var(--radius);padding:20px 24px;margin-top:20px}
+.summary-box h3{font-size:1.3rem;color:var(--blue);margin-bottom:6px}
+.ex-nav{display:flex;justify-content:space-between;gap:12px;margin-top:18px;flex-wrap:wrap}
+.ex-nav-btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue-lt);color:var(--blue);border:none;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:99px;transition:background .2s}
+.ex-nav-btn:hover{background:#d4e4fa}.ex-nav-btn:disabled{opacity:.35;cursor:default}
+
+/* ═══ THEORY ═══ */
+.theory-wrap{display:flex;gap:0;max-width:1100px;margin:0 auto;min-height:60vh}
+.theory-side{width:240px;flex-shrink:0;background:var(--card);border-right:1px solid #e6ddd0;padding:18px 14px;position:sticky;top:44px;height:calc(100vh - 44px);overflow-y:auto;z-index:5}
+.theory-side h3{font-size:1.3rem;color:var(--blue);margin-bottom:12px;padding:0 6px}
+.toc-link{display:block;padding:8px 10px;font-size:.82rem;font-weight:600;color:var(--text-lt);border-radius:var(--radius-sm);text-decoration:none;transition:all .2s;margin-bottom:2px;border-left:3px solid transparent}
+.toc-link:hover{background:var(--blue-lt);color:var(--blue)}
+.toc-link.active-toc{background:var(--blue-lt);color:var(--blue);border-left-color:var(--blue);font-weight:700}
+.theory-main{flex:1;padding:28px 28px 60px;min-width:0}
+.theory-section{margin-bottom:44px;scroll-margin-top:60px}
+.theory-section h2{font-size:1.7rem;color:var(--blue);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--blue-lt)}
+.theory-section h4{font-size:1.15rem;color:var(--text);margin:16px 0 8px;font-family:'Nunito',sans-serif;font-weight:800}
+.t-box{background:var(--card);border:1px solid #e6ddd0;border-radius:var(--radius-sm);padding:16px 20px;margin:12px 0;font-size:.93rem;line-height:1.8;box-shadow:var(--shadow)}
+.t-box.info{border-left:4px solid var(--blue);background:var(--blue-lt)}
+.t-box.warn{border-left:4px solid var(--red);background:var(--red-lt)}
+.t-box.tip{border-left:4px solid var(--green);background:var(--green-lt)}
+.t-box.rule{border-left:4px solid var(--gold);background:var(--gold-lt)}
+.t-box strong{font-weight:800}
+.t-formula{display:block;background:#f7f4ef;border:1.5px solid #e6ddd0;border-radius:var(--radius-sm);padding:12px 18px;margin:10px 0;font-size:1.05rem;text-align:center;font-weight:700;color:var(--blue)}
+.t-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem}
+.t-table th,.t-table td{border:1.5px solid #e6ddd0;padding:10px 14px;text-align:center}
+.t-table th{background:var(--blue);color:#fff;font-weight:700}
+.t-table tr:nth-child(even) td{background:#f9f6f1}
+.t-pos{color:var(--green);font-weight:700}.t-neg{color:var(--red);font-weight:700}
+.t-examples{margin:10px 0;padding-left:0;list-style:none;counter-reset:ex}
+.t-examples li{padding:6px 0 6px 32px;position:relative;font-size:.92rem}
+.t-examples li::before{content:counter(ex);counter-increment:ex;position:absolute;left:0;top:6px;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* FLOW DIAGRAM (practice) */
+.flow-container{margin:18px 0}
+.flow-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:2px;position:relative}
+.flow-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:38px}
+.flow-circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#fff;flex-shrink:0;position:relative;z-index:2}
+.flow-connector{width:3px;height:100%;min-height:16px;flex-grow:1}
+.flow-content{flex:1;padding-bottom:18px}
+.flow-content .fc-title{font-weight:800;font-size:.92rem;margin-bottom:5px}
+.flow-box{background:#fff;border:1.5px solid #e6ddd0;border-radius:var(--radius-sm);padding:12px 14px;font-size:.9rem;line-height:1.7}
+.flow-box.action{border-left:4px solid var(--blue);background:var(--blue-lt)}
+.flow-box.calc{border-left:4px solid var(--green);background:var(--green-lt)}
+.flow-box.result{border-left:4px solid var(--gold);background:var(--gold-lt)}
+.flow-box.check{border-left:4px solid var(--purple);background:var(--purple-lt)}
+.flow-box .fb-l{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;display:block}
+.flow-box.action .fb-l{color:var(--blue)}.flow-box.calc .fb-l{color:var(--green)}.flow-box.result .fb-l{color:var(--gold)}.flow-box.check .fb-l{color:var(--purple)}
+
+.calc-strip{display:flex;align-items:center;gap:0;margin:8px 0;flex-wrap:wrap;justify-content:center}
+.cs-item{background:#fff;border:2px solid #e6ddd0;border-radius:var(--radius-sm);padding:8px 14px;font-weight:700;font-size:.95rem;text-align:center;min-width:50px}
+.cs-item.hl{border-color:var(--blue);background:var(--blue-lt);color:var(--blue)}
+.cs-op{font-size:1.1rem;font-weight:700;color:var(--text-lt);padding:0 5px}
+.cs-arrow{font-size:1rem;color:var(--gold);padding:0 7px}
+
+.reveal-btn{display:block;width:100%;padding:14px;border:2.5px dashed var(--blue);border-radius:var(--radius);background:var(--blue-lt);color:var(--blue);font-weight:700;font-size:.95rem;text-align:center;transition:all .2s;margin:18px 0}
+.reveal-btn:hover{background:var(--blue);color:#fff;border-style:solid}
+.reveal-content{display:none;animation:fadeUp .4s ease both}.reveal-content.visible{display:block}
+.step-indicator{display:flex;gap:4px;margin:14px 0;justify-content:center}
+.si-dot{width:9px;height:9px;border-radius:50%;background:#e6ddd0;transition:all .3s}
+.si-dot.done-si{background:var(--green);transform:scale(1.2)}
+
+@media(max-width:700px){
+  .home-hero,.topic-hero,.ex-view-hero{padding-left:16px;padding-right:16px}
+  .home-hero p,.topic-hero p{max-width:none}
+  .main-nav{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .main-nav button{font-size:.76rem;padding:12px 10px;min-width:110px;white-space:nowrap}
+  .progress-wrap{padding:10px 12px;gap:8px}
+  .progress-wrap .lbl,.progress-wrap .cnt{font-size:.72rem}
+  .topics-grid,.practice-grid{grid-template-columns:1fr;padding:0 12px 42px;gap:14px}
+  .topic-card,.practice-card{padding:18px 18px}
+  .pc-footer{padding:10px 16px;margin:0 -18px -18px}
+  .exam-sheet{padding:0 8px}
+  .enunciado-box,.answer-section{padding:16px 14px}
+  .enunciado-box h2,.answer-section h2{font-size:1.2rem}
+  .step-card{border-radius:12px}
+  .step-header{padding:12px;gap:10px}
+  .step-body-pad{padding:0 12px 14px}
+  .step-tabs{gap:6px}
+  .tab-btn{flex:1 1 auto;padding:6px 10px}
+  .options-grid{flex-direction:column}
+  .opt-btn{width:100%}
+  .num-input-row{flex-direction:column}
+  .num-input{width:100%}
+  .ex-card{flex-direction:column;align-items:flex-start;gap:10px;padding:16px 16px}
+  .ex-card .ex-arrow{display:none}
+  .theory-wrap{flex-direction:column}
+  .theory-side{width:100%;position:relative;top:0;height:auto;border-right:none;border-bottom:1px solid #e6ddd0;padding:12px}
+  .theory-side .toc-list{display:flex;overflow-x:auto;gap:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+  .theory-side .toc-list::-webkit-scrollbar{display:none}
+  .toc-link{white-space:nowrap;margin-bottom:0}
+  .theory-main{padding:20px 14px 50px}
+  .calc-strip{gap:3px;justify-content:flex-start;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+  .cs-item{padding:6px 8px;font-size:.82rem;min-width:38px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="view-home" class="view active"></div>
+  <div id="view-topic" class="view"></div>
+  <div id="view-exercise" class="view"></div>
+  <div id="view-practice-detail" class="view"></div>
+</div>
+
+<script>
+/* ═══════════════ DATA ═══════════════ */
+var DATA=[
+{id:'modulo',icon:'📏',title:'Módulo y Valor Absoluto',desc:'Qué es el módulo y cómo calcularlo.',
+ exercises:[
+  {id:'mod-1',title:'El módulo siempre es positivo',
+   enunciado:'<p>Afirmación: "El módulo de un número es <strong>mayor o igual a cero</strong>." ¿Verdadero o falso?</p>',
+   tipo:'opciones',opciones:['Verdadero','Falso'],correcta:0,
+   pasos:[
+    {num:1,titulo:'¿Qué es el módulo?',texto:'Distancia del número al cero.',
+     coloquial:'Es la cantidad de pasos desde el cero, sin importar dirección.',
+     formal:'|a| = a si a ≥ 0; |a| = −a si a < 0. Siempre ≥ 0.',
+     clave:'El módulo NUNCA da negativo.'},
+    {num:2,titulo:'Evaluar',texto:'Siempre es ≥ 0.',
+     coloquial:'No hay excepciones.',
+     formal:'Para todo a real, |a| ≥ 0.',
+     clave:'No existe módulo negativo.'}]},
+  {id:'mod-2',title:'Módulo de −15',
+   enunciado:'<p>¿Cuánto vale el módulo de −15?</p>',
+   tipo:'numero',correcta:'15',
+   pasos:[
+    {num:1,titulo:'Identificar',texto:'−15 es negativo.',
+     coloquial:'Está a la izquierda del cero.',
+     formal:'−15 < 0, aplicamos |a| = −a.',
+     clave:'Negativo → le quita el signo.'},
+    {num:2,titulo:'Calcular',texto:'−(−15) = 15.',
+     coloquial:'Sacás el signo menos.',
+     formal:'|−15| = 15.',
+     clave:'|−15| NO es −15.'},
+    {num:3,titulo:'Resultado',texto:'15.',
+     coloquial:'A 15 pasos del cero.',
+     formal:'|−15| = 15. ✓',
+     clave:'Siempre positivo.'}]}
+ ]},
+{id:'comparacion',icon:'⚖️',title:'Comparación de Enteros',desc:'Mayor, menor, módulo.',
+ exercises:[
+  {id:'comp-1',title:'−4 vs −9',
+   enunciado:'<p>¿Cuál es mayor: <strong>−4</strong> o <strong>−9</strong>?</p>',
+   tipo:'opciones',opciones:['−4 es mayor','−9 es mayor'],correcta:0,
+   pasos:[
+    {num:1,titulo:'Regla',texto:'En negativos, el más cercano al cero es mayor.',
+     coloquial:'Funciona al revés.',
+     formal:'|−4|=4 < 9=|−9| → −4 > −9.',
+     clave:'Menor módulo = mayor.'},
+    {num:2,titulo:'Conclusión',texto:'−4 > −9.',
+     coloquial:'−4 está más a la derecha.',
+     formal:'−4 > −9. ✓',
+     clave:'Verificá en la recta.'}]},
+  {id:'comp-2',title:'Módulo y comparación',
+   enunciado:'<p>"Siempre es mayor el de mayor módulo." ¿V o F?</p>',
+   tipo:'opciones',opciones:['Verdadero','Falso'],correcta:1,
+   pasos:[
+    {num:1,titulo:'Contraejemplo',texto:'3 y −5: |−5|=5 > 3=|3|, pero 3 > −5.',
+     coloquial:'Un contraejemplo basta.',
+     formal:'|−5| > |3| pero 3 > −5.',
+     clave:'Módulo mide distancia, no posición.'}]}
+ ]},
+{id:'anterior',icon:'↔️',title:'Anterior y Siguiente',desc:'n−1 y n+1.',
+ exercises:[
+  {id:'ant-1',title:'Anterior de −7',
+   enunciado:'<p>¿Cuál es el anterior de −7?</p>',
+   tipo:'opciones',opciones:['−6','−8','6','8'],correcta:1,
+   pasos:[
+    {num:1,titulo:'Fórmula',texto:'Anterior = n − 1.',
+     coloquial:'Vecino izquierdo.',
+     formal:'n − 1 = −7 − 1 = −8.',
+     clave:'Anterior = −1.'},
+    {num:2,titulo:'Resultado',texto:'−8.',
+     coloquial:'...−9, −8, −7...',
+     formal:'−8 precede a −7.',
+     clave:'Más negativo.'}]},
+  {id:'ant-2',title:'Siguiente de −11',
+   enunciado:'<p>¿Cuál es el siguiente de −11?</p>',
+   tipo:'opciones',opciones:['−10','−12','10','12'],correcta:0,
+   pasos:[
+    {num:1,titulo:'Fórmula',texto:'Siguiente = n + 1.',
+     coloquial:'Vecino derecho.',
+     formal:'n + 1 = −11 + 1 = −10.',
+     clave:'Siguiente = +1.'},
+    {num:2,titulo:'Resultado',texto:'−10.',
+     coloquial:'...−12, −11, −10...',
+     formal:'−10 sucede a −11.',
+     clave:'Menos negativo.'}]}
+ ]},
+{id:'signos',icon:'✖️',title:'Regla de Signos',desc:'Multiplicación y división.',
+ exercises:[
+  {id:'sig-1',title:'−3 × 4',
+   enunciado:'<p>¿Cuánto da −3 × 4?</p>',
+   tipo:'numero',correcta:'-12',
+   pasos:[
+    {num:1,titulo:'Signos distintos',texto:'(−) × (+) = (−).',
+     coloquial:'Distintos = negativo.',
+     formal:'Signos opuestos → resultado negativo.',
+     clave:'Distintos signos → (−).'},
+    {num:2,titulo:'Calcular',texto:'3×4=12, con signo: −12.',
+     coloquial:'Valor primero, signo después.',
+     formal:'−3 × 4 = −12. ✓',
+     clave:'Dos pasos: valor y signo.'}]},
+  {id:'sig-2',title:'−20 ÷ (−5)',
+   enunciado:'<p>¿Cuánto da −20 ÷ (−5)?</p>',
+   tipo:'numero',correcta:'4',
+   pasos:[
+    {num:1,titulo:'Signos iguales',texto:'(−) ÷ (−) = (+).',
+     coloquial:'Se cancelan.',
+     formal:'Mismo signo → positivo.',
+     clave:'Iguales signos → (+).'},
+    {num:2,titulo:'Calcular',texto:'20÷5=4, positivo.',
+     coloquial:'Resultado: +4.',
+     formal:'−20 ÷ (−5) = 4. ✓',
+     clave:'La regla es igual para × y ÷.'}]}
+ ]},
+{id:'jerarquia',icon:'📋',title:'Jerarquía de Operaciones',desc:'El orden correcto.',
+ exercises:[
+  {id:'jer-1',title:'10 − 4 + 9 ÷ 3',
+   enunciado:'<p>Resolvé: 10 − 4 + 9 ÷ 3</p>',
+   tipo:'numero',correcta:'9',
+   pasos:[
+    {num:1,titulo:'Separar en términos',texto:'T1=10, T2=−4, T3=+9÷3.',
+     coloquial:'Cortá por + y − de afuera.',
+     formal:'T1=10, T2=−4, T3=+9÷3.',
+     clave:'Separar es clave.'},
+    {num:2,titulo:'Resolver',texto:'T3=9÷3=3. 10+(−4)+3=9.',
+     coloquial:'División dentro del término primero.',
+     formal:'10+(−4)+3=9. ✓',
+     clave:'× y ÷ antes que + y −.'}]},
+  {id:'jer-2',title:'2 + 3 × 4 − 6 ÷ 2',
+   enunciado:'<p>Resolvé: 2 + 3 × 4 − 6 ÷ 2</p>',
+   tipo:'numero',correcta:'11',
+   pasos:[
+    {num:1,titulo:'× y ÷ primero',texto:'3×4=12, 6÷2=3.',
+     coloquial:'Las "fuertes" primero.',
+     formal:'2+12−3.',
+     clave:'Reemplazá antes de + y −.'},
+    {num:2,titulo:'Sumar',texto:'2+12−3=11.',
+     coloquial:'De izquierda a derecha.',
+     formal:'14−3=11. ✓',
+     clave:'+ y − al final.'}]}
+ ]},
+{id:'potencias',icon:'💪',title:'Potencias',desc:'Base, exponente, signo.',
+ exercises:[
+  {id:'pot-1',title:'3⁴',
+   enunciado:'<p>¿Cuánto vale 3⁴?</p>',
+   tipo:'opciones',opciones:['12','27','81','243'],correcta:2,
+   pasos:[
+    {num:1,titulo:'Definición',texto:'3×3×3×3.',
+     coloquial:'Cuatro factores de 3.',
+     formal:'3⁴ = 81.',
+     clave:'No confundas 3×4=12 con 3⁴=81.'},
+    {num:2,titulo:'Calcular',texto:'3→9→27→81.',
+     coloquial:'De a poco.',
+     formal:'3⁴ = 81. ✓',
+     clave:'Paso a paso.'}]},
+  {id:'pot-2',title:'(−1)⁷',
+   enunciado:'<p>¿Cuánto vale (−1)⁷?</p>',
+   tipo:'opciones',opciones:['1','−1','7','−7'],correcta:1,
+   pasos:[
+    {num:1,titulo:'Regla',texto:'Base negativa + exponente impar = negativo.',
+     coloquial:'(−1) impar veces = −1.',
+     formal:'(−1)⁷ = −1.',
+     clave:'Impar → negativo.'}]}
+ ]},
+{id:'prop-pot',icon:'📐',title:'Propiedades de Potencias',desc:'Producto, cociente, potencia de potencia.',
+ exercises:[
+  {id:'ppot-1',title:'2⁶ × 2⁴',
+   enunciado:'<p>Simplificá: 2⁶ × 2⁴</p>',
+   tipo:'numero',correcta:'1024',
+   pasos:[
+    {num:1,titulo:'Producto',texto:'Misma base → sumar exponentes.',
+     coloquial:'6+4=10.',
+     formal:'2⁶ × 2⁴ = 2¹⁰ = 1024.',
+     clave:'SUMA exponentes.'},
+    {num:2,titulo:'Resultado',texto:'1024.',
+     coloquial:'Dos a la diez.',
+     formal:'2¹⁰ = 1024. ✓',
+     clave:'Memorizá 2¹⁰.'}]},
+  {id:'ppot-2',title:'3⁵ ÷ 3³',
+   enunciado:'<p>Simplificá: 3⁵ ÷ 3³</p>',
+   tipo:'numero',correcta:'9',
+   pasos:[
+    {num:1,titulo:'Cociente',texto:'Misma base → restar exponentes.',
+     coloquial:'5−3=2.',
+     formal:'3⁵ ÷ 3³ = 3² = 9.',
+     clave:'RESTA exponentes.'}]}
+ ]},
+{id:'radicacion',icon:'🌱',title:'Radicación',desc:'Raíz cuadrada y cúbica.',
+ exercises:[
+  {id:'rad-1',title:'√81',
+   enunciado:'<p>¿Cuánto vale la raíz cuadrada de 81?</p>',
+   tipo:'opciones',opciones:['7','8','9','10'],correcta:2,
+   pasos:[
+    {num:1,titulo:'¿Qué es raíz?',texto:'Número que × sí mismo da el radicando.',
+     coloquial:'¿Qué número² = 81?',
+     formal:'9² = 81 → √81 = 9.',
+     clave:'Inversa del cuadrado.'}]},
+  {id:'rad-2',title:'∛(−125)',
+   enunciado:'<p>¿Cuánto vale la raíz cúbica de −125?</p>',
+   tipo:'opciones',opciones:['5','−5','15','−15'],correcta:1,
+   pasos:[
+    {num:1,titulo:'Regla',texto:'Índice impar + negativo → existe y es negativo.',
+     coloquial:'La cúbica sí puede con negativos.',
+     formal:'∛(−125) = −5.',
+     clave:'PAR + neg = no existe. IMPAR + neg = sí.'},
+    {num:2,titulo:'Calcular',texto:'∛125=5, signo: −5.',
+     coloquial:'5³=125, y es negativo.',
+     formal:'(−5)³=−125. ✓',
+     clave:'Valor absoluto, después signo.'}]},
+  {id:'rad-3',title:'√3 × √12',
+   enunciado:'<p>Resolvé: raíz de 3 × raíz de 12</p>',
+   tipo:'numero',correcta:'6',
+   pasos:[
+    {num:1,titulo:'Distributiva',texto:'√a × √b = √(a·b).',
+     coloquial:'Juntar raíces.',
+     formal:'√(3·12) = √36 = 6.',
+     clave:'OJO: √(a+b) ≠ √a+√b.'}]}
+ ]},
+{id:'combinados',icon:'🧩',title:'Cálculos Combinados',desc:'Todo junto.',
+ exercises:[
+  {id:'comb-1',title:'40÷20 − 3×5 + 8÷4 + 1',
+   enunciado:'<p>Resolvé: 40 ÷ 20 − 3 × 5 + 8 ÷ 4 + 1</p>',
+   tipo:'numero',correcta:'-10',
+   pasos:[
+    {num:1,titulo:'Términos',texto:'T1=2, T2=−15, T3=2, T4=1.',
+     coloquial:'Separar, resolver cada uno, sumar.',
+     formal:'2+(−15)+2+1=−10. ✓',
+     clave:'Separar en términos.'}]},
+  {id:'comb-2',title:'Con potencias y raíces',
+   enunciado:'<p>(−1)⁷ − 1 × 15 ÷ 3 + √((−32)×(−2))</p>',
+   tipo:'numero',correcta:'2',
+   pasos:[
+    {num:1,titulo:'Resolver',texto:'T1=−1, T2=−5, T3=√64=8.',
+     coloquial:'(−32)(−2)=+64.',
+     formal:'−1+(−5)+8=2. ✓',
+     clave:'Neg×neg=positivo.'}]}
+ ]}
+];
+
+/* ═══════════════ PRACTICE DATA ═══════════════ */
+var PRACTICE=[
+{id:'p-mod',cat:'Módulo',cc:'cat-mod',title:'Módulo de −23',desc:'Calcular el módulo de un negativo.',
+diff:'Fácil',dc:'diff-easy',enunciado:'¿Cuánto vale el módulo de −23?',answer:'23',
+steps:[
+{t:'Identificar',type:'action',text:'−23 es negativo (está a la izquierda del cero).',calc:[{v:'−23'},{op:'→'},{v:'Negativo'}]},
+{t:'Aplicar regla',type:'action',text:'Si es negativo, |a| = −a (se quita el signo).',calc:[{v:'|−23|'},{op:'='},{v:'−(−23)'}]},
+{t:'Calcular',type:'calc',text:'Menos con menos da más:',calc:[{v:'−(−23)'},{op:'='},{v:'23',hl:1}]},
+{t:'Resultado',type:'result',text:'El módulo de −23 es 23.',calc:[{v:'23',hl:1}]},
+{t:'Verificar',type:'check',text:'¿23 ≥ 0? Sí. El módulo siempre da ≥ 0.'}]},
+{id:'p-comp',cat:'Comparación',cc:'cat-comp',title:'¿−4 o −9 es mayor?',desc:'Comparar dos negativos.',
+diff:'Fácil',dc:'diff-easy',enunciado:'¿Cuál es mayor: −4 o −9?',answer:'−4',
+steps:[
+{t:'Regla',type:'action',text:'En negativos, el más cercano al cero es el MAYOR.',calc:[{v:'−4'},{op:'vs'},{v:'−9'}]},
+{t:'Módulos',type:'calc',text:'Distancia al cero:',calc:[{v:'|−4|=4'},{op:','},{v:'|−9|=9'}]},
+{t:'Comparar',type:'action',text:'4 < 9 → −4 está más cerca del cero.',calc:[{v:'4',hl:1},{op:'<'},{v:'9'}]},
+{t:'Resultado',type:'result',text:'−4 es MAYOR que −9.',calc:[{v:'−4',hl:1},{op:'>'},{v:'−9'}]},
+{t:'Verificar',type:'check',text:'En la recta: ...−9, −8, −7, −6, −5, −4... −4 está más a la derecha.'}]},
+{id:'p-sign',cat:'Regla de Signos',cc:'cat-sign',title:'−3 × 4',desc:'Signos distintos.',
+diff:'Fácil',dc:'diff-easy',enunciado:'¿Cuánto da −3 × 4?',answer:'-12',
+steps:[
+{t:'¿Signos iguales?',type:'action',text:'−3 (negativo) y 4 (positivo) → DISTINTOS.',calc:[{v:'(−)'},{op:'×'},{v:'(+)'}]},
+{t:'Regla',type:'action',text:'Signos distintos = resultado NEGATIVO.',calc:[{v:'Distintos'},{op:'→'},{v:'Negativo',hl:1}]},
+{t:'Multiplicar',type:'calc',text:'Valor absoluto:',calc:[{v:'3'},{op:'×'},{v:'4'},{op:'='},{v:'12'}]},
+{t:'Resultado',type:'result',text:'Con signo negativo:',calc:[{v:'−12',hl:1}]},
+{t:'Verificar',type:'check',text:'(+) × (−) = (−). ✓'}]},
+{id:'p-sign2',cat:'Regla de Signos',cc:'cat-sign',title:'−5 × (−4)',desc:'Dos negativos.',
+diff:'Fácil',dc:'diff-easy',enunciado:'¿Cuánto da −5 × (−4)?',answer:'20',
+steps:[
+{t:'¿Signos?',type:'action',text:'Ambos negativos → IGUALES.',calc:[{v:'(−)'},{op:'×'},{v:'(−)'}]},
+{t:'Regla',type:'action',text:'Signos iguales = POSITIVO.',calc:[{v:'Iguales'},{op:'→'},{v:'Positivo',hl:1}]},
+{t:'Multiplicar',type:'calc',text:'5 × 4 = 20.',calc:[{v:'5'},{op:'×'},{v:'4'},{op:'='},{v:'20',hl:1}]},
+{t:'Verificar',type:'check',text:'(−) × (−) = (+). ✓'}]},
+{id:'p-jer',cat:'Jerarquía',cc:'cat-jer',title:'2 + 3 × 4 − 6 ÷ 2',desc:'× y ÷ antes que + y −.',
+diff:'Medio',dc:'diff-med',enunciado:'Resolvé: 2 + 3 × 4 − 6 ÷ 2',answer:'11',
+steps:[
+{t:'Separar términos',type:'action',text:'T1: 2 | T2: +3×4 | T3: −6÷2',calc:[{v:'T1: 2'},{op:'|'},{v:'T2: +3×4'},{op:'|'},{v:'T3: −6÷2'}]},
+{t:'× y ÷ primero',type:'calc',text:'T2: 3×4=12. T3: 6÷2=3.',calc:[{v:'3×4=12'},{op:'|'},{v:'6÷2=3'}]},
+{t:'Reescribir',type:'action',text:'2 + 12 − 3',calc:[{v:'2'},{op:'+'},{v:'12',hl:1},{op:'−'},{v:'3',hl:1}]},
+{t:'Sumar',type:'calc',text:'2+12=14, 14−3=11.',calc:[{v:'14'},{op:'−'},{v:'3'},{op:'='},{v:'11',hl:1}]},
+{t:'Verificar',type:'check',text:'+2 +12 −3 = 14−3 = 11. ✓'}]},
+  {id:'p-pot',cat:'Potencias',cc:'cat-pot',title:'2⁶ × 2⁴',desc:'Propiedad de producto.',
+ diff:'Medio',dc:'diff-med',enunciado:'Simplificá: 2⁶ × 2⁴',answer:'1024',
+steps:[
+{t:'¿Misma base?',type:'action',text:'Ambas base 2 → SÍ.',calc:[{v:'Base 2'},{op:'='},{v:'Base 2'},{op:'→'},{v:'¡Misma!'}]},
+{t:'Sumar exponentes',type:'action',text:'aᵐ × aⁿ = aᵐ⁺ⁿ',calc:[{v:'2⁶'},{op:'×'},{v:'2⁴'},{op:'='},{v:'2¹⁰'}]},
+{t:'Exponente',type:'calc',text:'6 + 4 = 10.',calc:[{v:'6'},{op:'+'},{v:'4'},{op:'='},{v:'10',hl:1}]},
+{t:'Resultado',type:'result',text:'2¹⁰ = 1024.',calc:[{v:'1024',hl:1}]},
+{t:'Verificar',type:'check',text:'2⁶=64, 2⁴=16, 64×16=1024. ✓'}]},
+{id:'p-rad',cat:'Radicación',cc:'cat-rad',title:'∛(−125)',desc:'Raíz cúbica de negativo.',
+diff:'Medio',dc:'diff-med',enunciado:'¿Cuánto vale la raíz cúbica de −125?',answer:'−5',
+steps:[
+{t:'¿Índice par o impar?',type:'action',text:'Cúbica → índice 3 → IMPAR → SÍ existe.',calc:[{v:'Índice 3'},{op:'→'},{v:'Impar'},{op:'→'},{v:'Existe',hl:1}]},
+{t:'Valor absoluto',type:'calc',text:'∛125: 5×5×5=125 → ∛125=5.',calc:[{v:'5'},{op:'×'},{v:'5'},{op:'×'},{v:'5'},{op:'='},{v:'125'}]},
+{t:'Signo',type:'action',text:'Radicando negativo → resultado negativo.',calc:[{v:'∛(−125)'},{op:'='},{v:'−5',hl:1}]},
+{t:'Verificar',type:'check',text:'(−5)³ = 25×(−5) = −125. ✓'}]},
+{id:'p-comb',cat:'Combinados',cc:'cat-jer',title:'40÷20 − 3×5 + 8÷4 + 1',desc:'Cálculo combinado completo.',
+diff:'Medio',dc:'diff-med',enunciado:'Resolvé: 40 ÷ 20 − 3 × 5 + 8 ÷ 4 + 1',answer:'-10',
+steps:[
+{t:'Términos',type:'action',text:'T1: 40÷20 | T2: −3×5 | T3: +8÷4 | T4: +1',calc:[{v:'40÷20'},{op:'|'},{v:'−3×5'},{op:'|'},{v:'8÷4'},{op:'|'},{v:'1'}]},
+{t:'Resolver',type:'calc',text:'T1=2, T2=−15, T3=2, T4=1',calc:[{v:'2'},{op:'|'},{v:'−15'},{op:'|'},{v:'2'},{op:'|'},{v:'1'}]},
+{t:'Sumar',type:'result',text:'2+(−15)+2+1 = −10.',calc:[{v:'2−15+2+1'},{op:'='},{v:'−10',hl:1}]},
+{t:'Verificar',type:'check',text:'+2+2+1=5. −15. 5+(−15)=−10. ✓'}]},
+  {id:'p-comb2',cat:'Combinados',cc:'cat-jer',title:'Con potencias y raíces',desc:'Ejercicio nivel examen.',
+ diff:'Difícil',dc:'diff-hard',enunciado:'(−1)⁷ − 1 × 15 ÷ 3 + √((−32)×(−2))',answer:'2',
+steps:[
+{t:'Términos',type:'action',text:'T1: (−1)⁷ | T2: −1×15÷3 | T3: +√((−32)(−2))',calc:[{v:'(−1)⁷'},{op:'|'},{v:'−1×15÷3'},{op:'|'},{v:'√((−32)(−2))'}]},
+{t:'T1: potencia',type:'calc',text:'(−1)⁷ = −1 (base neg, exp impar).',calc:[{v:'(−1)⁷'},{op:'='},{v:'−1',hl:1}]},
+{t:'T2: dentro',type:'calc',text:'1×15=15, 15÷3=5, signo: −5.',calc:[{v:'15÷3=5'},{op:'→'},{v:'−5',hl:1}]},
+{t:'T3: dentro raíz',type:'action',text:'(−32)×(−2) = +64 (neg×neg=pos).',calc:[{v:'(−32)×(−2)'},{op:'='},{v:'+64',hl:1}]},
+{t:'T3: raíz',type:'calc',text:'√64 = 8.',calc:[{v:'√64'},{op:'='},{v:'8',hl:1}]},
+{t:'Sumar',type:'result',text:'(−1)+(−5)+8 = 2.',calc:[{v:'−1−5+8'},{op:'='},{v:'2',hl:1}]},
+{t:'Verificar',type:'check',text:'−6+8=2. ✓'}]}
+];
+
+/* ═══════════════ THEORY DATA ═══════════════ */
+var THEORY=[
+{id:'t-enteros',title:'Números Enteros (ℤ)',content:[
+{type:'info',text:'<strong>Los números enteros</strong> son todos los números que se usan para contar, su opuesto (negativo) y el cero. Se escriben: ℤ = {… , −3, −2, −1, 0, 1, 2, 3, …}'},
+{type:'tip',text:'En la <strong>recta numérica</strong>, a la derecha del 0 están los positivos y a la izquierda los negativos. El 0 no es ni positivo ni negativo.'},
+{type:'rule',text:'<strong>Regla:</strong> Cuanto más a la derecha en la recta, mayor es el número.'}
+]},
+{id:'t-modulo',title:'Módulo o Valor Absoluto',content:[
+{type:'info',text:'El <strong>módulo</strong> de un número es su distancia al cero. Se escribe |a|. Como es una distancia, siempre es <strong>mayor o igual a cero</strong>.'},
+{type:'formula',text:'Si a ≥ 0 → |a| = a &nbsp;&nbsp;|&nbsp;&nbsp; Si a < 0 → |a| = −a'},
+{type:'warn',text:'<strong>¡Cuidado!</strong> El módulo NUNCA puede dar negativo. Si tu resultado es negativo, algo está mal.'},
+{type:'examples',items:['|7| = 7 (ya es positivo)','|−3| = 3 (se quita el signo)','|0| = 0 (distancia cero)','|−15| = 15']}
+]},
+{id:'t-comparacion',title:'Comparación de Enteros',content:[
+{type:'info',text:'Usamos <strong>></strong> (mayor que) y <strong><</strong> (menor que). El número más a la derecha en la recta es el mayor.'},
+{type:'rule',text:'<strong>Reglas:</strong><br>1. Todo positivo es mayor que todo negativo (3 > −100).<br>2. Dos positivos: gana el de mayor valor (8 > 5).<br>3. Dos negativos: gana el de <em>menor módulo</em>, más cercano al cero (−2 > −7).<br>4. El cero es mayor que cualquier negativo y menor que cualquier positivo.'},
+{type:'warn',text:'<strong>¡Cuidado!</strong> En los negativos, el que parece más chico es el más grande. −2 es MAYOR que −10.'}
+]},
+{id:'t-anterior',title:'Anterior y Siguiente',content:[
+{type:'formula',text:'Anterior de n = n − 1 &nbsp;&nbsp;|&nbsp;&nbsp; Siguiente de n = n + 1'},
+{type:'tip',text:'Con negativos: el anterior es el "más negativo" y el siguiente es el "menos negativo". Ejemplo: anterior de −5 es −6, siguiente es −4.'},
+{type:'examples',items:['Anterior de 4 es 3, siguiente es 5','Anterior de −5 es −6, siguiente es −4','Anterior de −1522 es −1523, siguiente es −1521']}
+]},
+{id:'t-signos',title:'Regla de Signos (× y ÷)',content:[
+{type:'info',text:'La regla es la <strong>misma</strong> para multiplicación y división:'},
+{type:'table',headers:['Operación','Resultado'],rows:[['(+) × (+)','Positivo'],['(+) × (−)','Negativo'],['(−) × (+)','Negativo'],['(−) × (−)','Positivo']]},
+{type:'rule',text:'<strong>Truco:</strong> Signos iguales → positivo. Signos distintos → negativo.'},
+{type:'tip',text:'Para suma y resta con signos: a − (−b) = a + b &nbsp;|&nbsp; a + (−b) = a − b &nbsp;|&nbsp; a − (+b) = a − b'}
+]},
+{id:'t-jerarquia',title:'Jerarquía de Operaciones',content:[
+{type:'info',text:'Cuando hay varias operaciones, se respeta este <strong>orden</strong>:'},
+{type:'rule',text:'<strong>1.</strong> Paréntesis → <strong>2.</strong> Potencias y raíces → <strong>3.</strong> Multiplicaciones y divisiones (de izq. a der.) → <strong>4.</strong> Sumas y restas (de izq. a der.)'},
+{type:'tip',text:'<strong>Separación en términos:</strong> Separá la expresión por los signos + y − que están fuera de paréntesis. Cada término se resuelve por separado y después se juntan.'},
+{type:'examples',items:['8 − 3 × 2 + 10 ÷ 5 → Términos: 8 | −3×2 | +10÷5','Primero: 8 | −6 | +2 → Después: 8+(−6)+2 = 4']}
+]},
+{id:'t-potencias',title:'Potencias',content:[
+{type:'info',text:'Una <strong>potencia</strong> es multiplicación repetida: aⁿ = a × a × … × a (n veces). "a" es la <em>base</em>, "n" es el <em>exponente</em>.'},
+{type:'warn',text:'<strong>Base negativa:</strong><br>• Exponente PAR → resultado POSITIVO: (−2)⁴ = 16<br>• Exponente IMPAR → resultado NEGATIVO: (−2)³ = −8<br>• Cuidado: (−2)⁴ ≠ −2⁴ (el signo afuera cambia todo).'},
+{type:'rule',text:'<strong>Caso especial:</strong> a⁰ = 1 (cualquier número a la 0 es 1) y a¹ = a.'}
+]},
+{id:'t-prop-pot',title:'Propiedades de Potencias',content:[
+{type:'rule',text:'<strong>Producto:</strong> aᵐ × aⁿ = aᵐ⁺ⁿ (se SUMAN exponentes, misma base)'},
+{type:'rule',text:'<strong>Cociente:</strong> aᵐ ÷ aⁿ = aᵐ⁻ⁿ (se RESTAN exponentes, misma base)'},
+{type:'rule',text:'<strong>Potencia de potencia:</strong> (aᵐ)ⁿ = aᵐˣⁿ (se MULTIPLICAN exponentes)'},
+{type:'examples',items:['2³ × 2⁴ = 2⁷ = 128','5⁶ ÷ 5⁴ = 5² = 25','(3²)³ = 3⁶ = 729']}
+]},
+{id:'t-radicacion',title:'Radicación: Raíz Cuadrada y Cúbica',content:[
+{type:'info',text:'La <strong>raíz</strong> es la operación inversa de la potencia.<br>• <strong>Raíz cuadrada</strong> (√): busca un número que × sí mismo dé el radicando.<br>• <strong>Raíz cúbica</strong> (∛): busca un número que × 3 veces por sí mismo dé el radicando.'},
+{type:'examples',items:['√81 = 9 (porque 9 × 9 = 81)','∛125 = 5 (porque 5 × 5 × 5 = 125)','∛(−125) = −5 (porque (−5)³ = −125)']},
+{type:'warn',text:'La raíz cuadrada de un negativo <strong>NO existe</strong> en los números reales.'}
+]},
+{id:'t-rad-neg',title:'Raíces con Radicandos Negativos',content:[
+{type:'rule',text:'<strong>Índice PAR (raíz cuadrada, etc.)</strong> con negativo → <strong>NO EXISTE</strong> en los números reales.'},
+{type:'rule',text:'<strong>Índice IMPAR (raíz cúbica, etc.)</strong> con negativo → <strong>SÍ EXISTE</strong> y el resultado es negativo: ∛(−a) = −∛a'},
+{type:'examples',items:['√(−16) = No existe','∛(−27) = −3','∛(−1000) = −10']},
+{type:'warn',text:'¿Por qué? Al multiplicar un número por sí mismo un número PAR de veces, siempre da positivo. Por eso √(−9) no existe.'}
+]},
+{id:'t-prop-rad',title:'Propiedades de la Radicación',content:[
+{type:'rule',text:'<strong>Distributiva (multiplicación):</strong> √(a × b) = √a × √b'},
+{type:'rule',text:'<strong>Distributiva (división):</strong> √(a ÷ b) = √a ÷ √b (con b ≠ 0)'},
+{type:'warn',text:'<strong>NO es distributiva respecto de suma y resta:</strong><br>√(a + b) ≠ √a + √b<br>Ejemplo: √(9+16) = √25 = 5, pero √9 + √16 = 3+4 = 7. ¡No son lo mismo!'},
+{type:'rule',text:'<strong>Raíz de una raíz:</strong> ⁿ√(ᵐ√a) = ⁿᵐ√a (se multiplican los índices)'},
+{type:'rule',text:'<strong>Simplificación del índice:</strong> Se puede dividir (o multiplicar) el índice y el exponente del radicando por un mismo número.'},
+{type:'examples',items:['√(100 × 25) = √100 × √25 = 10 × 5 = 50','√3 × √12 = √36 = 6','∛(1000 × (−8)) = ∛(−8000) = −20']}
+]}
+];
+
+/* ═══════════════ STATE ═══════════════ */
+var curTab='topics',curTopic=null,solved={};
+try{var s=localStorage.getItem('mat_sv4');if(s)solved=JSON.parse(s);}catch(e){}
+function save(){try{localStorage.setItem('mat_sv4',JSON.stringify(solved));}catch(e){}}
+
+/* ═══════════════ NAVIGATION ═══════════════ */
+function go(view,arg){
+  var ids=['view-home','view-topic','view-exercise','view-practice-detail'];
+  for(var i=0;i<ids.length;i++)document.getElementById(ids[i]).classList.remove('active');
+  if(view==='home'||view==='practice'||view==='theory'){
+    curTab=view==='practice'?'practice':view==='theory'?'theory':arg||'topics';
+    renderHome();document.getElementById('view-home').classList.add('active');
+  }else if(view==='topic'){
+    curTopic=arg;renderTopic();document.getElementById('view-topic').classList.add('active');
+  }else if(view==='exercise'){
+    renderExercise(arg);document.getElementById('view-exercise').classList.add('active');
+  }else if(view==='pd'){
+    renderPD(arg);document.getElementById('view-practice-detail').classList.add('active');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ═══════════════ RENDER HOME ═══════════════ */
+function renderHome(){
+  var h='<header class="home-hero"><h1>📐 Matemática 2° Año</h1><p>Estudiá teoría, resolvé ejercicios y practicá paso a paso.</p></header>';
+  h+='<nav class="main-nav">';
+  h+='<button '+(curTab==='theory'?'class="act"':'')+' onclick="go(\'theory\')">📖 Teoría</button>';
+  h+='<button '+(curTab==='topics'?'class="act"':'')+' onclick="go(\'home\',\'topics\')">📚 Ejercicios</button>';
+  h+='<button '+(curTab==='practice'?'class="act"':'')+' onclick="go(\'practice\')">✏️ Practicar</button>';
+  h+='</nav>';
+
+  // Progress
+  var tot=0,dn=0;
+  for(var i=0;i<DATA.length;i++){tot+=DATA[i].exercises.length;for(var j=0;j<DATA[i].exercises.length;j++)if(solved[DATA[i].exercises[j].id])dn++;}
+  var pct=tot>0?Math.round(dn/tot*100):0;
+  h+='<div class="progress-wrap"><span class="lbl">Progreso</span><div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div><span class="cnt">'+dn+'/'+tot+'</span></div>';
+
+  if(curTab==='theory'){
+    h+=renderTheory();
+  }else if(curTab==='topics'){
+    h+='<div class="topics-grid">';
+    for(var i=0;i<DATA.length;i++){
+      var t=DATA[i],d=0;for(var j=0;j<t.exercises.length;j++)if(solved[t.exercises[j].id])d++;
+      h+='<div class="topic-card" onclick="go(\'topic\',\''+t.id+'\')"><div class="tc-icon">'+t.icon+'</div><h3>'+t.title+'</h3><p>'+t.desc+'</p><div class="tc-tags"><span class="tc-tag">'+t.exercises.length+' ej.</span><span class="tc-tag ready">'+d+'/'+t.exercises.length+'</span></div></div>';
+    }
+    h+='</div>';
+  }else if(curTab==='practice'){
+    h+='<div class="practice-grid">';
+    for(var i=0;i<PRACTICE.length;i++){
+      var p=PRACTICE[i];
+      h+='<div class="practice-card" onclick="go(\'pd\',\''+p.id+'\')"><span class="pc-cat '+p.cc+'">'+p.cat+'</span><h3>'+p.title+'</h3><p>'+p.desc+'</p><div class="pc-footer"><span class="pc-diff '+p.dc+'">'+p.diff+'</span><span class="pc-go">Ver resolución →</span></div></div>';
+    }
+    h+='</div>';
+  }
+  document.getElementById('view-home').innerHTML=h;
+}
+
+/* ═══════════════ THEORY RENDER ═══════════════ */
+function renderTheory(){
+  var h='<div class="theory-wrap"><div class="theory-side"><h3>Índice</h3><div class="toc-list">';
+  for(var i=0;i<THEORY.length;i++){
+    h+='<a class="toc-link" href="#'+THEORY[i].id+'" onclick="scrollToTheory(\''+THEORY[i].id+'\')">'+THEORY[i].title+'</a>';
+  }
+  h+='</div></div><div class="theory-main">';
+  for(var i=0;i<THEORY.length;i++){
+    var sec=THEORY[i];
+    h+='<div class="theory-section" id="'+sec.id+'"><h2>'+sec.title+'</h2>';
+    for(var j=0;j<sec.content.length;j++){
+      var c=sec.content[j];
+      if(c.type==='formula'){
+        h+='<div class="t-formula">'+c.text+'</div>';
+      }else if(c.type==='table'){
+        h+='<table class="t-table"><thead><tr>';
+        for(var k=0;k<c.headers.length;k++)h+='<th>'+c.headers[k]+'</th>';
+        h+='</tr></thead><tbody>';
+        for(var k=0;k<c.rows.length;k++){h+='<tr>';for(var m=0;m<c.rows[k].length;m++){var cell=c.rows[k][m];var cls='';if(cell.indexOf('Positivo')>=0)cls=' class="t-pos"';if(cell.indexOf('Negativo')>=0)cls=' class="t-neg"';h+='<td'+cls+'>'+cell+'</td>';}h+='</tr>';}
+        h+='</tbody></table>';
+      }else if(c.type==='examples'){
+        h+='<ol class="t-examples">';
+        for(var k=0;k<c.items.length;k++)h+='<li>'+c.items[k]+'</li>';
+        h+='</ol>';
+      }else{
+        h+='<div class="t-box '+c.type+'">'+c.text+'</div>';
+      }
+    }
+    h+='</div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+
+function scrollToTheory(id){
+  // Handled by anchor, but we need to be on theory tab
+  setTimeout(function(){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});},100);
+}
+
+/* ═══════════════ RENDER TOPIC ═══════════════ */
+function renderTopic(){
+  var topic=null;for(var i=0;i<DATA.length;i++)if(DATA[i].id===curTopic){topic=DATA[i];break;}
+  if(!topic)return;
+  var h='<div class="topic-hero"><div style="max-width:800px;margin:0 auto"><button class="back-btn" onclick="go(\'home\',\'topics\')">← Volver</button><h1>'+topic.icon+' '+topic.title+'</h1><p>'+topic.desc+'</p></div></div>';
+  h+='<div class="ex-list">';
+  for(var i=0;i<topic.exercises.length;i++){
+    var ex=topic.exercises[i],d=!!solved[ex.id];
+    h+='<div class="ex-card'+(d?' done':'')+'" onclick="go(\'exercise\',\''+ex.id+'\')"><div class="ex-num">'+(i+1)+'</div><div class="ex-info"><h3>'+ex.title+'</h3><p>'+(d?'✓ Resuelto':'Tocá para resolver')+'</p></div><div class="ex-arrow">→</div></div>';
+  }
+  h+='</div>';
+  document.getElementById('view-topic').innerHTML=h;
+}
+
+/* ═══════════════ RENDER EXERCISE ═══════════════ */
+function renderExercise(eid){
+  var ex=null,topic=null;
+  for(var i=0;i<DATA.length;i++)for(var j=0;j<DATA[i].exercises.length;j++)if(DATA[i].exercises[j].id===eid){ex=DATA[i].exercises[j];topic=DATA[i];}
+  if(!ex||!topic)return;
+  var ei=-1;for(var i=0;i<topic.exercises.length;i++)if(topic.exercises[i].id===eid)ei=i;
+  var pid=ei>0?topic.exercises[ei-1].id:'',nid=ei<topic.exercises.length-1?topic.exercises[ei+1].id:'';
+  window._cEx=ex;
+  var h='<div class="ex-view-hero"><div style="max-width:760px;margin:0 auto"><button class="back-btn" onclick="go(\'topic\',\''+topic.id+'\')">← '+topic.title+'</button><h1>'+ex.title+'</h1></div></div>';
+  h+='<div class="exam-sheet"><div class="enunciado-box"><h2>📝 Enunciado</h2><div class="en-texto">'+ex.enunciado+'</div></div>';
+  h+='<h2 class="hand" style="font-size:1.6rem;color:var(--blue);margin:20px 0 8px">📖 Resolución paso a paso</h2>';
+  h+='<div class="steps-container">';
+  for(var i=0;i<ex.pasos.length;i++){
+    var p=ex.pasos[i];
+    h+='<div class="step-card" id="s'+p.num+'"><div class="step-header" onclick="tS('+p.num+')"><div class="step-num">'+p.num+'</div><div class="step-info"><div class="step-title">'+p.titulo+'</div><div class="step-preview">'+p.texto+'</div></div><div class="step-arrow">▼</div></div>';
+    h+='<div class="step-body"><div class="step-body-inner"><div class="step-body-pad"><div class="step-tabs">';
+    h+='<button class="tab-btn active-t" onclick="sT('+p.num+',\'c\',this)">🗣️ Palabras</button>';
+    h+='<button class="tab-btn" onclick="sT('+p.num+',\'f\',this)">📐 Formal</button>';
+    h+='<button class="tab-btn" onclick="sT('+p.num+',\'k\',this)">🔑 Clave</button></div>';
+    h+='<div class="tab-content tab-coloquial visible" id="t'+p.num+'c"><span class="tc-label">En palabras</span><div class="tc-inner">'+p.coloquial+'</div></div>';
+    h+='<div class="tab-content tab-formal" id="t'+p.num+'f"><span class="tc-label">Formal</span><div class="tc-inner">'+p.formal+'</div></div>';
+    h+='<div class="tab-content tab-clave" id="t'+p.num+'k"><span class="tc-label">Clave</span><div class="tc-inner">'+p.clave+'</div></div>';
+    h+='</div></div></div></div>';
+  }
+  h+='</div>';
+  h+='<div class="answer-section"><h2>✏️ Tu respuesta</h2><p class="sub">Seleccioná o escribí la respuesta.</p>';
+  if(ex.tipo==='opciones'){
+    h+='<div class="options-grid">';for(var i=0;i<ex.opciones.length;i++)h+='<button class="opt-btn" onclick="selOpt(this,'+i+')">'+ex.opciones[i]+'</button>';h+='</div>';
+  }else{
+    h+='<div class="num-input-row"><label style="font-weight:700">Respuesta:</label><input type="number" class="num-input" id="nI" placeholder="Número" step="any"><button class="btn-check" id="bN" onclick="chkN()">Verificar</button></div>';
+  }
+  h+='<div class="fb" id="fb"></div></div>';
+  h+='<div class="summary-box"><h3>📌 Resumen</h3><p><strong>Tema:</strong> '+topic.title+' | <strong>Ejercicio:</strong> '+ex.title+' | <strong>Pasos:</strong> '+ex.pasos.length+'</p></div>';
+  h+='<div class="ex-nav"><button class="ex-nav-btn" '+(pid?'':'disabled')+' onclick="go(\'exercise\',\''+pid+'\')">← Anterior</button><button class="ex-nav-btn" '+(nid?'':'disabled')+' onclick="go(\'exercise\',\''+nid+'\')">Siguiente →</button></div></div>';
+  document.getElementById('view-exercise').innerHTML=h;
+}
+
+/* ═══════════════ RENDER PRACTICE DETAIL ═══════════════ */
+function renderPD(id){
+  var p=null;for(var i=0;i<PRACTICE.length;i++)if(PRACTICE[i].id===id){p=PRACTICE[i];break;}
+  if(!p)return;window._cP=p;
+  var colors=['#4a7fd4','#3a9e4a','#d4952a','#d94f4f','#7e57c2','#2d6a4f','#8e44ad'];
+  var h='<div class="ex-view-hero"><div style="max-width:760px;margin:0 auto"><button class="back-btn" onclick="go(\'practice\')">← Practicar</button><h1>'+p.title+'</h1></div></div>';
+  h+='<div class="exam-sheet"><div class="enunciado-box"><h2>📝 Enunciado</h2><div class="en-texto"><p>'+p.enunciado+'</p></div></div>';
+  h+='<button class="reveal-btn" id="rBtn" onclick="revealSol()">👁️ Ver resolución paso a paso</button>';
+  h+='<div class="reveal-content" id="solFlow">';
+  // indicator
+  h+='<div class="step-indicator">';for(var i=0;i<p.steps.length;i++)h+='<div class="si-dot" id="si'+i+'"></div>';h+='</div>';
+  // flow
+  h+='<div class="flow-container">';
+  var labels={action:'ACCIÓN',calc:'CÁLCULO',result:'RESULTADO',check:'VERIFICACIÓN'};
+  for(var i=0;i<p.steps.length;i++){
+    var st=p.steps[i],col=colors[i%colors.length],last=i===p.steps.length-1;
+    h+='<div class="flow-step" id="fs'+i+'"><div class="flow-line"><div class="flow-circle" style="background:'+col+'">'+(i+1)+'</div>';
+    if(!last)h+='<div class="flow-connector" style="background:linear-gradient(to bottom,'+col+' 0%,#e6ddd0 100%)"></div>';
+    h+='</div><div class="flow-content"><div class="fc-title">'+st.t+'</div><div class="flow-box '+st.type+'"><span class="fb-l">'+labels[st.type]+'</span><p>'+st.text+'</p>';
+    if(st.calc){
+      h+='<div class="calc-strip">';
+      for(var j=0;j<st.calc.length;j++){
+        var c=st.calc[j];
+        if(c.op){if(c.op==='→')h+='<span class="cs-arrow">→</span>';else if(c.op==='|')h+='<span class="cs-op" style="color:#ccc">│</span>';else if(c.op===',')h+='<span class="cs-op">,</span>';else h+='<span class="cs-op">'+c.op+'</span>';}
+        if(c.v)h+='<span class="cs-item'+(c.hl?' hl':'')+'">'+c.v+'</span>';
+      }
+      h+='</div>';
+    }
+    h+='</div></div></div>';
+  }
+  h+='</div>';
+  // Answer
+  h+='<div class="answer-section" style="margin-top:20px"><h2>✏️ Tu respuesta</h2><p class="sub">Intentá resolverlo antes de ver el desarrollo.</p>';
+  h+='<div class="num-input-row"><input type="text" class="num-input" id="pI" placeholder="Tu respuesta"><button class="btn-check" onclick="chkP()">Verificar</button></div>';
+  h+='<div class="fb" id="pFb"></div></div>';
+  h+='</div></div>';
+  document.getElementById('view-practice-detail').innerHTML=h;
+}
+
+/* ═══════════════ INTERACTIONS ═══════════════ */
+function tS(n){var c=document.getElementById('s'+n);if(c)c.classList.toggle('open');}
+function sT(n,t,btn){
+  var ts=['c','f','k'];for(var i=0;i<ts.length;i++){var el=document.getElementById('t'+n+ts[i]);if(el){if(ts[i]===t)el.classList.add('visible');else el.classList.remove('visible');}}
+  var card=document.getElementById('s'+n);if(card){var bs=card.querySelectorAll('.tab-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('active-t');}
+  if(btn)btn.classList.add('active-t');
+}
+
+function selOpt(btn,idx){
+  var ex=window._cEx;if(!ex||solved[ex.id])return;
+  var all=document.querySelectorAll('.opt-btn');for(var i=0;i<all.length;i++){all[i].style.pointerEvents='none';}
+  var fb=document.getElementById('fb');
+  if(idx===ex.correcta){
+    btn.classList.add('correct-opt');solved[ex.id]=true;save();
+    fb.className='fb show fb-ok';fb.innerHTML='¡Correcto! 🎉';confetti(btn);
+  }else{
+    btn.classList.add('wrong-opt');all[ex.correcta].classList.add('correct-opt');
+    fb.className='fb show fb-fail';fb.innerHTML='Respuesta: <strong>'+ex.opciones[ex.correcta]+'</strong>.';
+  }
+}
+function chkN(){
+  var ex=window._cEx;if(!ex||solved[ex.id])return;
+  var v=document.getElementById('nI').value.trim().replace(',','.'),fb=document.getElementById('fb');
+  if(!v){fb.className='fb show fb-fail';fb.innerHTML='Escribí un número.';return;}
+  if(Math.abs(parseFloat(v)-parseFloat(ex.correcta))<0.001){
+    solved[ex.id]=true;save();fb.className='fb show fb-ok';fb.innerHTML='¡Correcto! 🎉';
+    document.getElementById('nI').disabled=true;document.getElementById('bN').disabled=true;confetti(document.getElementById('nI'));
+  }else{fb.className='fb show fb-fail';fb.innerHTML='Respuesta: <strong>'+ex.correcta+'</strong>.';}
+}
+
+function revealSol(){
+  var el=document.getElementById('solFlow'),btn=document.getElementById('rBtn');
+  el.classList.add('visible');btn.style.display='none';
+  var steps=el.querySelectorAll('.flow-step'),dots=el.querySelectorAll('.si-dot');
+  for(var i=0;i<steps.length;i++){
+    (function(idx){
+      steps[idx].style.opacity='0';steps[idx].style.transform='translateX(-18px)';steps[idx].style.transition='all .35s ease';
+      setTimeout(function(){steps[idx].style.opacity='1';steps[idx].style.transform='translateX(0)';if(dots[idx])dots[idx].classList.add('done-si');},150+idx*300);
+    })(i);
+  }
+}
+
+function chkP(){
+  var p=window._cP;if(!p)return;
+  var v=document.getElementById('pI').value.trim().replace(',','.').toLowerCase(),fb=document.getElementById('pFb'),ans=p.answer.trim().toLowerCase();
+  if(!v){fb.className='fb show fb-fail';fb.innerHTML='Escribí una respuesta.';return;}
+  var ok=v===ans||(!isNaN(parseFloat(v))&&!isNaN(parseFloat(ans))&&Math.abs(parseFloat(v)-parseFloat(ans))<0.001);
+  if(ok){fb.className='fb show fb-ok';fb.innerHTML='¡Correcto! 🎉 Mirá la resolución para ver el proceso.';document.getElementById('pI').disabled=true;confetti(document.getElementById('pI'));}
+  else{fb.className='fb show fb-fail';fb.innerHTML='La respuesta es: <strong>'+p.answer+'</strong>. Mirá la resolución abajo.';}
+}
+
+function confetti(el){
+  var cols=['#4a7fd4','#d94f4f','#3a9e4a','#d4952a','#7e57c2'],r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top;
+  for(var i=0;i<12;i++){(function(idx){var c=document.createElement('div'),dx=(Math.random()-.5)*100;
+  c.style.cssText='position:fixed;width:7px;height:7px;border-radius:50%;background:'+cols[idx%cols.length]+';pointer-events:none;z-index:9999;left:'+(cx+dx)+'px;top:'+cy+'px;opacity:1;transition:all .6s ease-out;';
+  document.body.appendChild(c);setTimeout(function(){c.style.transform='translateY('+(-Math.random()*70-15)+'px) rotate('+(Math.random()*360)+'deg)';c.style.opacity='0';},10+idx*12);
+  setTimeout(function(){c.remove();},800);})(i);}
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    if(e.target&&e.target.id==='nI')chkN();
+    if(e.target&&e.target.id==='pI')chkP();
+  }
+});
+
+renderHome();
+</script>
+</body>
+</html>
